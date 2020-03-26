@@ -8,7 +8,7 @@ img = cv2.imread(image_path)
 cv2.imshow("face", img)
 cv2.waitKey(1000)
 
-face_cascade = cv2.CascadeClassifier(os.path.join(cv2.data.haarcascades, 
+face_cascade = cv2.CascadeClassifier(os.path.join(cv2.data.haarcascades,
                                      "haarcascade_frontalface_default.xml"))
 
 gray_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -24,6 +24,6 @@ for x, y, w, h in faces:
     img = cv2.rectangle(img, (x, y), (x+w, y+h), (0, 255, 0), thickness=3)
 
 cv2.imshow("face", img)
-cv2.waitKey(1000)
+cv2.waitKey()
 
 cv2.destroyAllWindows()
