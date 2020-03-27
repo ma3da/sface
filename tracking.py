@@ -12,9 +12,9 @@ OPENCV_OBJECT_TRACKERS = {
         "mosse": cv2.TrackerMOSSE_create
 }
 
-tracker_type = "mil"
-tracker = OPENCV_OBJECT_TRACKERS[tracker_type]()
-init_box = None
+tracker_type = "boosting"
+tracker_getter = OPENCV_OBJECT_TRACKERS[tracker_type]
+tracker = None
 
 # Read video
 video_path = os.path.join(os.path.dirname(__file__), "ap_run.mp4")
@@ -30,13 +30,13 @@ while True:
     # Start timer
     timer = cv2.getTickCount()
 
-    # Update tracker
-    is_ok, bbox = tracker.update(frame)
-
     # Calculate Frames per second (FPS)
     fps = cv2.getTickFrequency() / (cv2.getTickCount() - timer)
 
-    if init_box is not None:
+    if tracker is not None:
+        # Update tracker
+        is_ok, bbox = tracker.update(frame)
+
         # Draw bounding box
         if is_ok:
             # Tracking success
@@ -63,6 +63,7 @@ while True:
         init_box = cv2.selectROI("Frame", frame, fromCenter=False, showCrosshair=True)
         # start OpenCV object tracker using the supplied bounding box
         # coordinates, then start the FPS throughput estimator as well
+        tracker = tracker_getter()
         tracker.init(frame, init_box)
         # fps = FPS().start()
     elif key == ord("q"):
