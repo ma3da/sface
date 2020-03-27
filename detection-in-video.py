@@ -3,8 +3,6 @@ import os
 
 video_path = os.path.join(os.path.dirname(__file__), "ap_run.mp4")
 
-img = cv2.imread(video_path)
-
 cap = cv2.VideoCapture(video_path)
 
 face_cascade = cv2.CascadeClassifier(os.path.join(cv2.data.haarcascades,
